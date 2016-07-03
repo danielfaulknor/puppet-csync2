@@ -13,7 +13,8 @@ class csync2 (
   $xinetd      = true,
   # Only used if $xinetd is true
   $port        = '30865',
-  $only_from   = '10.0.0.0/8 172.16.0.0/12 192.168.0.0/16'
+  $only_from   = '10.0.0.0/8'
+  $manage_firewall = undef,
 ) {
 
   package { 'csync2': ensure => installed }
@@ -40,6 +41,16 @@ class csync2 (
     }
   }
 
+  # Manage Firewall
+  if $manage_firewall == true {
+    firewall { '001 Allow csync2':
+      dport    => $port,
+      proto    => tcp,
+      action   => accept,
+      source   => $only_from
+    }
+  }
+  
   # Mandatory xinetd service, optionally managed here
   if $xinetd == true {
     xinetd::serviceconf { 'csync2':
