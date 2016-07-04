@@ -13,7 +13,7 @@ class csync2 (
   $xinetd      = true,
   # Only used if $xinetd is true
   $port        = '30865',
-  $only_from   = '10.0.0.0/8'
+  $only_from   = '10.0.0.0/8',
   $manage_firewall = undef,
 ) {
 
